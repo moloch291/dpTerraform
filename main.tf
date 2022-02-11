@@ -7,11 +7,10 @@ terraform {
   }
 }
 
-# Configure the Microsoft Azure Provider
 provider "azurerm" {
   features {}
 }
 
 module "drport" {
-    source = "./resource_group"
+    source = "./drport_resource_group"
 }

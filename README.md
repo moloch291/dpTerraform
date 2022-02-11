@@ -4,8 +4,8 @@ The resource group:
 
 >>>
 - app services
-- env vars a containerhez
 - container registry
+    + env vars a containerhez
 - sql db max 2giga (basic tier)
 <<<
 
