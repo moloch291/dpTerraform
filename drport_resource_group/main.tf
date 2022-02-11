@@ -54,6 +54,7 @@ resource "azurerm_mssql_database" "mssql_db" {
 }
 ##### App service: #####
 resource "azurerm_app_service_plan" "drp_svc_plan" {
+  depends_on          = [azurem_resource_group.rg]
   name                = "example-appserviceplan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -71,13 +72,13 @@ resource "azurerm_app_service_plan" "drp_svc_plan" {
 }
 
 resource "azurerm_app_service" "example" {
+  depends_on          = [azurerm_app_service_plan.drp_svc_plan]
   name                = "example-app-service"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   app_service_plan_id = azurerm_app_service_plan.drp_svc_plan.id
 
   dynamic "app_settings" {
-
     for_each = len(var.env_vars[var.env]) > 0 ? [true] : []
 
     content {
