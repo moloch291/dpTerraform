@@ -4,6 +4,12 @@ variable "location" {
   default     = "West Europe"
 }
 
+variable "general_tier" {
+  type        = string
+  description = "Tier of acr sku"
+  default     = "Basic"
+}
+
 variable "resource_group_name" {
   type        = string
   description = "Name for the resource group"
@@ -16,16 +22,28 @@ variable "acr_name" {
   default     = "drp-acr"
 }
 
-variable "general_tier" {
+variable "svc_plan_sku_tier" {
   type        = string
   description = "Tier of acr sku"
-  default     = "Basic"
+  default     = "Standard"
+}
+
+variable "svc_plan_sku_size" {
+  type        = string
+  description = "Size of acr sku"
+  default     = "S1" # Default value, needs resolve
 }
 
 variable "mssql_name" {
   type        = string
   description = "Name for mssql"
   default     = "drp-mssql"
+}
+
+variable "mssql_max_size" {
+  type        = number
+  description = "Max size for mssql in GB"
+  default     = 2
 }
 
 variable "is_premium_or_business_crit_tier" {
