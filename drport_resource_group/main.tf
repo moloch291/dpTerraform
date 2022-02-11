@@ -76,7 +76,7 @@ resource "azurerm_app_service" "example" {
   resource_group_name = azurerm_resource_group.rg.name
   app_service_plan_id = azurerm_app_service_plan.drp_svc_plan.id
 
-  dynamic app_settings = { # These are jusr dummy settings, need to know env vars
+  dynamic app_settings { # These are jusr dummy settings, need to know env vars
     for_each = var.env_vars
 
     content {

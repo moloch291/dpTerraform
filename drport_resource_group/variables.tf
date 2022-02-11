@@ -78,7 +78,7 @@ variable "env_vars" {
 }
 
 variable "app_svc_plan_kind" {
-  kind        = string
+  type        = string
   description = "Kind of the app service plan"
   default     = "Windows" # This is the default, needs resolve!
 }
