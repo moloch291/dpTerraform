@@ -77,12 +77,10 @@ resource "azurerm_app_service" "example" {
   app_service_plan_id = azurerm_app_service_plan.drp_svc_plan.id
 
   dynamic app_settings { # These are jusr dummy settings, need to know env vars
-    for_each = var.env_vars
+    for_each = var.env_vars[var.env]
 
     content {
-      name      = each.value.name
-      age       = each.value.age
-      direction = each.value.direction
+      variables = var.env_vars[var.env]
     }
   }
 

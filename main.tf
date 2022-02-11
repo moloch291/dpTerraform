@@ -12,6 +12,7 @@ provider "azurerm" {
 }
 
 module "drport" {
-    source = "./drport_resource_group"
-    env    = "Test Environment"
+    source            = "./drport_resource_group"
+    env               = "Dummy Environment"
+    connection_string = "dummy-connection-string"
 }

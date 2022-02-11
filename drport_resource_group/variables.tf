@@ -59,22 +59,25 @@ variable "mssql_admin_login_pw" {}
 ##### This is just example data! #####
 variable "env_vars" {
   description = "Dummy var replacing env vars"
+  type        = map(string)
 
-  type = list(object({
-    name      = string
-    age       = number
-    direction = string
-  }))
-  default = [{
-    name      = "Pista"
-    age       = 21
-    direction = "South"
-  },
-  {
-    name      = "Jeno"
-    age       = 12
-    direction = "North"
-  }]
+  default = {
+    qa = {
+      name      = "Pisti"
+      age       = "23"
+      direction = "South"
+    }
+    staging = {
+      name      = "Jenő"
+      age       = "32"
+      direction = "North"
+    }
+    prod = {
+      name      = "Béla"
+      age       = "60"
+      direction = "West"
+    }
+  }
 }
 
 variable "app_svc_plan_kind" {
