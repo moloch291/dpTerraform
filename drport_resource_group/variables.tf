@@ -1,4 +1,4 @@
-variable "region" {
+variable "location" {
   type        = string
   description = "Location of the resource group"
   default     = "West Europe"
@@ -15,5 +15,7 @@ variable "acr_name" {
   description = "Name for the container registry"
   default     = "drp-acr"
 }
+
+variable "env_vars" {}
 
 variable "env" {}

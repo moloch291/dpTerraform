@@ -13,4 +13,5 @@ provider "azurerm" {
 
 module "drport" {
     source = "./drport_resource_group"
+    env    = "Test Environment"
 }
