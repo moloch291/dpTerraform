@@ -12,7 +12,9 @@ provider "azurerm" {
 }
 
 module "drport" {
-    source            = "./drport_resource_group"
-    env               = "Dummy Environment"
-    connection_string = "dummy-connection-string"
+  source               = "./drport_resource_group"
+  connection_string    = "dummy-connection-string"
+  mssql_admin_login_pw = "p4assword"
+  mssql_admin_login    = "4dm1n"
+  env                  = "qa"
 }

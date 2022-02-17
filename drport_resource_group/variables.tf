@@ -4,6 +4,8 @@ variable "location" {
   default     = "West Europe"
 }
 
+variable "env" {}
+
 variable "general_tier" {
   type        = string
   description = "Tier of acr sku"
@@ -59,7 +61,7 @@ variable "mssql_admin_login_pw" {}
 ##### This is just example data! #####
 variable "env_vars" {
   description = "Dummy var replacing env vars"
-  type        = map(string)
+  type        = map(any)
 
   default = {
     qa = {

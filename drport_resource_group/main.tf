@@ -10,11 +10,10 @@ resource "azurerm_resource_group" "rg" {
 }
 ##### ACR: #####
 resource "azurerm_container_registry" "acr" {
-  depends_on          = [azurem_resource_group.rg]
   name                = "${var.acr_name}"
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  sku                 = "${var.acr_sku_tier}"
+  sku                 = "${var.svc_plan_sku_tier}" # Same as service plan sku tier
 
   tags = {
     Name        = "${var.acr_name}-${var.location}"
@@ -23,7 +22,6 @@ resource "azurerm_container_registry" "acr" {
 }
 ##### SQL: #####
 resource "azurerm_mssql_server" "mssql_server" {
-  depends_on                   = [azurem_resource_group.rg]
   name                         = "${var.mssql_name}-server"
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
@@ -37,7 +35,6 @@ resource "azurerm_mssql_server" "mssql_server" {
   }
 }
 resource "azurerm_mssql_database" "mssql_db" {
-  depends_on     = [azurerm_mssql_server.mssql_server]
   name           = "${var.mssql_name}-db"
   server_id      = azurerm_mssql_server.mssql_server.id
   collation      = "SQL_Latin1_General_CP1_CI_AS"
@@ -54,7 +51,6 @@ resource "azurerm_mssql_database" "mssql_db" {
 }
 ##### App service: #####
 resource "azurerm_app_service_plan" "drp_svc_plan" {
-  depends_on          = [azurem_resource_group.rg]
   name                = "drp_svc_plan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
@@ -72,20 +68,15 @@ resource "azurerm_app_service_plan" "drp_svc_plan" {
 }
 
 resource "azurerm_app_service" "drp_svc" {
-  depends_on          = [azurerm_app_service_plan.drp_svc_plan]
-  name                = "drp_svc"
+  name                = "drp-svc"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   app_service_plan_id = azurerm_app_service_plan.drp_svc_plan.id
 
-  dynamic "app_settings" {
-    for_each = len(var.env_vars[var.env]) > 0 ? [true] : []
-
-    content {
-      name      = var.env_vars[var.env].name
-      age       = var.env_vars[var.env].age
-      direction = var.env_vars[var.env].direction
-    }
+  app_settings = {
+    name      = "${var.env_vars[var.env].name}"
+    age       = "${var.env_vars[var.env].age}"
+    direction = "${var.env_vars[var.env].direction}"
   }
 
   connection_string {
