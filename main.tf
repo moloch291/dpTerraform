@@ -14,7 +14,7 @@ provider "azurerm" {
 module "drport" {
   source               = "./drport_resource_group"
   connection_string    = "dummy-connection-string"
-  mssql_admin_login_pw = "p4assword"
+  mssql_admin_login_pw = "p4ssw0rd"
   mssql_admin_login    = "4dm1n"
   env                  = "qa"
 }

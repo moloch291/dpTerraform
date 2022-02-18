@@ -34,6 +34,7 @@ resource "azurerm_mssql_server" "mssql_server" {
     Environment = "${var.env}"
   }
 }
+
 resource "azurerm_mssql_database" "mssql_db" {
   name           = "${var.mssql_name}-db"
   server_id      = azurerm_mssql_server.mssql_server.id
@@ -74,9 +75,7 @@ resource "azurerm_app_service" "drp_svc" {
   app_service_plan_id = azurerm_app_service_plan.drp_svc_plan.id
 
   app_settings = {
-    name      = "${var.env_vars[var.env].name}"
-    age       = "${var.env_vars[var.env].age}"
-    direction = "${var.env_vars[var.env].direction}"
+    for k, v in var.env_vars[var.env] : k => v
   }
 
   connection_string {
