@@ -21,7 +21,7 @@ variable "resource_group_name" {
 variable "acr_name" {
   type        = string
   description = "Name for the container registry"
-  default     = "drp-acr"
+  default     = "drpAcr"
 }
 
 variable "svc_plan_sku_tier" {
