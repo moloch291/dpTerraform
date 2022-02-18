@@ -1,19 +1,19 @@
 ##### Resource group: #####
 resource "azurerm_resource_group" "rg" {
-	name     = "${var.resource_group_name}"
-	location = "${var.location}"
+  name     = var.resource_group_name
+  location = var.location
 
-	tags = {
-		Name        = "${var.resource_group_name}-${var.location}"
-		Environment = "${var.env}"
-	}
+  tags = {
+    Name        = "${var.resource_group_name}-${var.location}"
+    Environment = "${var.env}"
+  }
 }
 ##### ACR: #####
 resource "azurerm_container_registry" "acr" {
-  name                = "${var.acr_name}"
+  name                = var.acr_name
   resource_group_name = azurerm_resource_group.rg.name
   location            = azurerm_resource_group.rg.location
-  sku                 = "${var.svc_plan_sku_tier}" # Same as service plan sku tier
+  sku                 = var.svc_plan_sku_tier # Same as service plan sku tier
 
   tags = {
     Name        = "${var.acr_name}-${var.location}"
@@ -26,8 +26,8 @@ resource "azurerm_mssql_server" "mssql_server" {
   resource_group_name          = azurerm_resource_group.rg.name
   location                     = azurerm_resource_group.rg.location
   version                      = "12.0"
-  administrator_login          = "${var.mssql_admin_login}"
-  administrator_login_password = "${var.mssql_admin_login_pw}"
+  administrator_login          = var.mssql_admin_login
+  administrator_login_password = var.mssql_admin_login_pw
 
   tags = {
     Name        = "${var.mssql_name}-server"
@@ -42,7 +42,7 @@ resource "azurerm_mssql_database" "mssql_db" {
   license_type   = "LicenseIncluded"
   max_size_gb    = var.mssql_max_size
   read_scale     = (var.is_premium_or_business_crit_tier ? true : false)
-  sku_name       = "${var.general_tier}"
+  sku_name       = var.general_tier
   zone_redundant = (var.is_premium_or_business_crit_tier ? true : false)
 
   tags = {
@@ -55,11 +55,11 @@ resource "azurerm_app_service_plan" "drp_svc_plan" {
   name                = "drp_svc_plan"
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
-  kind                = "${var.app_svc_plan_kind}"
+  kind                = var.app_svc_plan_kind
 
   sku {
-    tier = "${var.svc_plan_sku_tier}"
-    size = "${var.svc_plan_sku_size}"
+    tier = var.svc_plan_sku_tier
+    size = var.svc_plan_sku_size
   }
 
   tags = {
@@ -81,7 +81,7 @@ resource "azurerm_app_service" "drp_svc" {
   connection_string {
     name  = "${var.mssql_name}-db-connnection-string"
     type  = "SQLServer"
-    value = "${var.connection_string}"
+    value = var.connection_string
   }
 
   tags = {
